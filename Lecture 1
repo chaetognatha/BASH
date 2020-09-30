@@ -1,0 +1,9 @@
+With running a script, if you want to run the whole script, do not highlight the whole script (at least when working with HMTL
+Remember to open the rigth proejct before tryign to run the script
+So called shell scripts are most often small programs that can be run fromthe terminal. Editing shell scripts or other text files requires a text editor tobe used. (atom etc)
+
+./ means search for the program in the current directory.
+
+Exportation in BASH 
+export command exports an item to teh bash environment but if you close the bash, it will be erased - if you wanna keep the item, you need to create a file witc touch command to keep it
+export I=eggs,$I means that you export an item eggs into 
