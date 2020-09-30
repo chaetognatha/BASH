@@ -6,4 +6,5 @@ So called shell scripts are most often small programs that can be run fromthe te
 
 Exportation in BASH 
 export command exports an item to teh bash environment but if you close the bash, it will be erased - if you wanna keep the item, you need to create a file witc touch command to keep it
-export I=eggs,$I means that you export an item eggs into 
+export I=eggs,$I means that you export an item eggs into the bash environment
+if you export lets say export I=ägg this replaces the pre-existing item from the directory
