@@ -115,7 +115,10 @@ Then we see the number of Nts each line
 5
 
 keep in mind we need to add -n to prevent BASH from counting \ (represents new line) as part of the characters
-
+otherwise:
+4
+3
+6
 scp-ruser@130.235.8.214:⇠/BashExercise/Test .
 
 
@@ -142,7 +145,32 @@ scp-ruser@130.235.8.214:⇠/BashExercise/Test .
     
     Grep only included the numebr of lines that contain GC 
     
+    Try removing As and Ts from the file and save this as one version, then divide by the original
     
+    ver 3
+    echo the GC content is $(cat paxillus.fna | tr A -d | tr T -d | grep -v \>) / $(cat paxillus.fna | grep -v \>)
+    ver 4
+    echo the GC content is $(cat paxillus.fna | tr A -d | tr T -d | grep -v \> | wc -c) / $(cat paxillus.fna | grep -v \> | wc -c)
+    
+    
+    ver 5 
+    cat paxillus.fna | tr -d AT | grep -v \> | wc -c -n
+    -n to avoid the bash from counting the invisible line change \ as a character
+            echo the GC content is $(cat paxillus.fna | tr -d AT | grep -v \> | wc -c) / $(cat paxillus.fna | grep -v \> | wc -c)
+
+
+
+    so in total:
+        echo the GC content is $(cat paxillus.fna | tr -d AT | grep -v \> | wc -c | echo -n $paxillus) / $(cat paxillus.fna | grep -v \> | wc -c -n| echo -n $paxillus)
+
+echo the GC content is $(cat paxillus.fna | tr -d AT | grep -v \> | wc -c | bc) / $(cat paxillus.fna | grep -v \> | wc -c | bc)
+
+
+
+echo the GC content is $(cat paxillus.fna | tr -d AT | grep -v \> | tr -d "\n" | wc -c) / $(cat paxillus.fna | grep -v \> | tr -d "\n" | wc -c)
+
+a=cat paxillus.fna | tr -d AT | grep -v \> | wc -c | bc
+b=cat paxillus.fna | grep -v \> | wc -c | bc
 The format of the file    
 >HISEQ1:132:D0T25ACXX:3:1101:1380:1974 1:N:0:TGACCA
 CTTTCTCAAAGCTGTACTCGCTGGCGTCATGTTGTCCTTTGGTGGCTTGCTTGCTGTTATACTCGCTGGTGGTTCACCTAGCCTTACGGCTTCCATTCCTG
