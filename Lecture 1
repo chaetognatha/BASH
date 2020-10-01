@@ -30,7 +30,7 @@ e.g. catmyFile.fna | tracgtACGTtgcaTGCA > myNewFile.fna
      catmyFile.csv | sed 's/Hi/Hello/g' > myNewFile.txt 
      Hello,I,am,from,here!
 
-Loops
+**Loops**
 user FielsForExercises> For i in 1 2 3 4 5; do echo "welcome $i times"; done      # do exactly like this, space by space
 
 do statement starts the loop, done ends it
@@ -91,7 +91,7 @@ Which sequence is the most common?
     229 GTTTTCTTTGACATCCTGATCAACAACCAGCCCGCTGGCCGCATCGTCTTCAGGCTCTACGACCAGCAGGTGCCCATAACTACCAAAAACTTCCGTGAACT
 
 
-variables in BASH
+__variables in BASH__
 
 When valuesshould be returned from a variable a $-sign is used. 
 e.g 
@@ -119,7 +119,7 @@ keep in mind we need to add -n to prevent BASH from counting \ (represents new l
 scp-ruser@130.235.8.214:⇠/BashExercise/Test .
 
 
-1. calculate the GC content of paxinus file
+***1. calculate the GC content of paxinus file***
     Things we need
     grep - takes a pattern, in this case>,andlooksforthatpatternineachlineand outputs only these line
     esim. catpaxillus.fna |grep\>
@@ -133,7 +133,15 @@ scp-ruser@130.235.8.214:⇠/BashExercise/Test .
     ver 1. echo the GC content is $(cat paxillus.fna | grep "GC" | grep -v \> | wc) / $(cat paxillus.fna | grep -v \> | wc)
     
     echo the GC content is $(cat paxillus.fna | grep "GC" | grep -v \> | wc -c) / $(cat paxillus.fna | grep -v \> | wc -c)
-
+    
+    Could divide into variables 
+    a=cat paxillus.fna | grep "GC" | grep -v \> | wc -c
+    b=cat paxillus.fna | grep -v \> | wc -c)
+    
+    echo $((a/b))
+    
+    Grep only included the numebr of lines that contain GC 
+    
     
 The format of the file    
 >HISEQ1:132:D0T25ACXX:3:1101:1380:1974 1:N:0:TGACCA
