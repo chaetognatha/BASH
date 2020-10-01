@@ -80,6 +80,29 @@ AAATCCTTTATCCACGCACTTAATCCCTGTCCATCAAATGGCTTTCCTCGGACTTCGCAAATGGCCCACGCCGGTCCTGA
 
 
 
+seds///substitutes a string, here the HISEQ1:
+
+catpaxillus.fna |seds/HISEQ1/Paxillus/
+
+Which sequence is the most common?
+[inf-54-2020@bioinf-biol302454 BashExercise]$ rm newPaxillus.fna 
+[inf-54-2020@bioinf-biol302454 BashExercise]$ cat paxillus.fna | grep -v \> | sort | uniq -c | sort -n | tail -1
+    229 GTTTTCTTTGACATCCTGATCAACAACCAGCCCGCTGGCCGCATCGTCTTCAGGCTCTACGACCAGCAGGTGCCCATAACTACCAAAAACTTCCGTGAACT
+
+
+variables in BASH
+
+When valuesshould be returned from a variable a $-sign is used. 
+e.g 
+[inf-54-2020@bioinf-biol302454 ~]$ age=10
+[inf-54-2020@bioinf-biol302454 ~]$ dogyear=7
+[inf-54-2020@bioinf-biol302454 ~]$ echo "$age*$dogyear" | bc
+70
+
+Or you can just put:
+[inf-54-2020@bioinf-biol302454 ~]$ echo $((age*dogyear))
+70
+
 
 
 
