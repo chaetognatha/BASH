@@ -33,6 +33,7 @@ e.g. catmyFile.fna | tracgtACGTtgcaTGCA > myNewFile.fna
 Loops
 user FielsForExercises> For i in 1 2 3 4 5; do echo "welcome $i times"; done      # do exactly like this, space by space
 
+do statement starts the loop, done ends it
 While
 while [ condiIon ]; do command1 command2 .. .... commandN; done
 
@@ -116,4 +117,34 @@ Then we see the number of Nts each line
 keep in mind we need to add -n to prevent BASH from counting \ (represents new line) as part of the characters
 
 scp-ruser@130.235.8.214:⇠/BashExercise/Test .
+
+
+1. calculate the GC content of paxinus file
+    Things we need
+    grep - takes a pattern, in this case>,andlooksforthatpatternineachlineand outputs only these line
+    esim. catpaxillus.fna |grep\>
+    to calculate the word count |wc-l
+    we need | bc
+    divide the GC content with the total content
+    exclude the lines containing > by applying -v ---- so |grep -v \> | 
+    
+    $(Evaluation of command1) / $(Evaluation of command2)
+    
+    ver 1. echo the GC content is $(cat paxillus.fna | grep "GC" | grep -v \> | wc) / $(cat paxillus.fna | grep -v \> | wc)
+    
+    echo the GC content is $(cat paxillus.fna | grep "GC" | grep -v \> | wc -c) / $(cat paxillus.fna | grep -v \> | wc -c)
+
+    
+The format of the file    
+>HISEQ1:132:D0T25ACXX:3:1101:1380:1974 1:N:0:TGACCA
+CTTTCTCAAAGCTGTACTCGCTGGCGTCATGTTGTCCTTTGGTGGCTTGCTTGCTGTTATACTCGCTGGTGGTTCACCTAGCCTTACGGCTTCCATTCCTG
+>HISEQ1:132:D0T25ACXX:3:1101:1362:1978 1:N:0:TGACCA
+CCGCCCAACACCGTTCATCTGAACCAGAAATTCTGTCTTTATCCGTCTTGAGCCCTCTGATTCAGACTCGTTACGAGTGCCAGCTAGGGAATCAATTTCGT
+>HISEQ1:132:D0T25ACXX:3:1101:1446:1995 1:N:0:TGACCA
+GTCAAGTCCTCGGTCCTGCTCGCTTGTATGCCTTGTCATGGCATCTTCCATCCTCACGTCCACTTCTTATGATGAGAGTGCACGACTCTGCCCCGCAACTC
+>HISEQ1:132:D0T25ACXX:3:1101:2212:1998 1:N:0:TGACCA
+TGGAACTTGGTTTCTGTGGTTCCCGGCCTCGCTGGCAACGTCGGCACTGACTGCACGCCCATCACCGCCATCGGACTTGGCTCTGGTAGTTCCTGCACAGC
+>HISEQ1:132:D0T25ACXX:3:1101:2322:1976 1:N:0:TGACCA
+AAAAAAACAAGATACCAATGTCTATGGACAATTTCTCATATACGGATACAGTCCGTGCTGCCTTTGCCTCATGTTTACCATGCTTCGCCAGTTCTCCGTCC
+
   
