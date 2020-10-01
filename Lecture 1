@@ -104,7 +104,16 @@ Or you can just put:
 70
 
 
+First we create a file with 3 lines of Nts
+[inf-54-2020@bioinf-biol302454 ~]$ echo -e "acg\ngc\nattta" > file.fna
 
+Then we see the number of Nts each line
+[inf-54-2020@bioinf-biol302454 ~]$ cat file.fna | while read line; do echo -n $line | wc -c; done
+3
+2
+5
+
+keep in mind we need to add -n to prevent BASH from counting \ (represents new line) as part of the characters
 
 scp-ruser@130.235.8.214:⇠/BashExercise/Test .
   
