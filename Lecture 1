@@ -14,3 +14,74 @@ if you export lets say export I=ägg this replaces the pre-existing item from th
 P2
 See how many lines the file contains: 1000
 number of words: 2000000
+
+
+
+Tweaking file format 
+e.g. catmyFile.fna | tracgtACGTtgcaTGCA > myNewFile.fna
+    - tr - translates acgt to tgca
+    - pipe | needs to be used 
+    - with rem you reverse it
+ catmyFile.csv | sed 's/,/ / ' > myNewFile.txt 
+    Prints e.g.: Hi I,am,from,here!
+    - sed subsitutues commas to spaces 's/,/ / '
+    but if you want to apply this change to a whole sentence: 's/,/ /g'
+    Prints : Hey I am from here!
+     catmyFile.csv | sed 's/Hi/Hello/g' > myNewFile.txt 
+     Hello,I,am,from,here!
+
+Loops
+user FielsForExercises> For i in 1 2 3 4 5; do echo "welcome $i times"; done      # do exactly like this, space by space
+
+While
+while [ condiIon ]; do command1 command2 .. .... commandN; done
+
+e.g
+catmyfile.fna | while read line; do echo -n $line | wc -c; done
+ - good for calculating the number of bases in the genome for isntance
+ 
+ If you wanna loop over files - use for loops
+ if loop via file contents - use while 
+ 
+ #!/bin/sh               
+ echo "hello world"
+ 
+sh hello.sh 
+print: hello world
+use man to check commands like
+man chmod
+
+scp -r user@ip or server name:~/location .
+ - brings the whole file from the distant server to yours
+ scp -r user@ip or server name:~/location/* .
+ brings the contents of the file from the distant server to yours
+
+
+When wanting to select certain rows/columns from a file (which is organised in a way that it can be intepreted this way)
+
+[inf-54-2020@bioinf-biol302454 BashExercise]$ cat paxillus.fna | grep -A 1 -f list.txt
+>HISEQ1:132:D0T25ACXX:3:1103:19197:80091 1:N:0:TGACCA
+CCGAGCTTTCTTTCACAAGATCAAGTCTCGTCTCTCCTTCAGCGGTCGAAGATCCTGTTGGAGGAATTCAGCCTAGAAGATCACCCGCTTACCAAGTTCAC
+--
+>HISEQ1:132:D0T25ACXX:3:1104:3139:53081 1:N:0:TGACCA
+CAGCATCAGGGTCAGCGATCTTCTTGGTATCGACCCAGTCCTCAGGCTTCGTGTCTTCGGGGTCGTCAATCTCCGTGGGAGGGTTGACGGCGGGGGTGAAG
+--
+>HISEQ1:132:D0T25ACXX:3:1104:17112:70958 1:N:0:TGACCA
+AAATCCTTTATCCACGCACTTAATCCCTGTCCATCAAATGGCTTTCCTCGGACTTCGCAAATGGCCCACGCCGGTCCTGAAGCCCATGGCTCCATTCATCG
+[inf-54-2020@bioinf-biol302454 BashExercise]$ cat list.txt | cut -d : -f 5-7 | tr : "\t"
+1104	17112	70958
+1104	3139	53081
+1103	19197	80091
+[inf-54-2020@bioinf-biol302454 BashExercise]$ cat list.txt | head -2 | cut -d : -f 5-7 | tr : "\t"
+1104	17112	70958
+1104	3139	53081
+[inf-54-2020@bioinf-biol302454 BashExercise]$ 
+## "\t" is the tab
+
+
+
+
+
+
+scp-ruser@130.235.8.214:⇠/BashExercise/Test .
+  
