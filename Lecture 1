@@ -169,6 +169,11 @@ echo the GC content is $(cat paxillus.fna | tr -d AT | grep -v \> | wc -c | bc) 
 
 echo the GC content is $(cat paxillus.fna | tr -d AT | grep -v \> | tr -d "\n" | wc -c) / $(cat paxillus.fna | grep -v \> | tr -d "\n" | wc -c)
 
+
+Two ways to do the solution
+a) $ echo "scale=2; $(cat paxillus.fna | tr -d AT | grep -v \> | tr -d "\n" | wc -c) / $(cat paxillus.fna | grep -v \> | tr -d "\n" | wc -c)" | bc
+b) $ echo $(cat paxillus.fna | tr -d AT | grep -v \> | tr -d "\n" | wc -c) / $(cat paxillus.fna | grep -v \> | tr -d "\n" | wc -c) | bc -l
+
 a=cat paxillus.fna | tr -d AT | grep -v \> | wc -c | bc
 b=cat paxillus.fna | grep -v \> | wc -c | bc
 The format of the file    
