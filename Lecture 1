@@ -170,7 +170,7 @@ echo the GC content is $(cat paxillus.fna | tr -d AT | grep -v \> | wc -c | bc) 
 echo the GC content is $(cat paxillus.fna | tr -d AT | grep -v \> | tr -d "\n" | wc -c) / $(cat paxillus.fna | grep -v \> | tr -d "\n" | wc -c)
 
 
-Two ways to do the solution
+_Two ways to do the solution_
 a) $ echo "scale=2; $(cat paxillus.fna | tr -d AT | grep -v \> | tr -d "\n" | wc -c) / $(cat paxillus.fna | grep -v \> | tr -d "\n" | wc -c) * 100" | bc
 b) $ echo $(cat paxillus.fna | tr -d AT | grep -v \> | tr -d "\n" | wc -c) / $(cat paxillus.fna | grep -v \> | tr -d "\n" | wc -c) "* 100" | bc -l
 
@@ -190,16 +190,16 @@ TGGAACTTGGTTTCTGTGGTTCCCGGCCTCGCTGGCAACGTCGGCACTGACTGCACGCCCATCACCGCCATCGGACTTGG
 AAAAAAACAAGATACCAATGTCTATGGACAATTTCTCATATACGGATACAGTCCGTGCTGCCTTTGCCTCATGTTTACCATGCTTCGCCAGTTCTCCGTCC
 
 
-2.Calculate the number of times the oligo GAAGTC occurs in the file(this is more tricky than it first seems).
+**2.Calculate the number of times the oligo GAAGTC occurs in the file(this is more tricky than it first seems).**
 
 
 echo $(cat paxillus.fna | grep -v \> | grep -o "GAAGTC" | wc -l)
-when you use grep -o, it selects the desired strings
+when you use grep -o, it selects the desired strings (selects the lines with this string, then wc selects the number of these lines)
 wc -l instead of wc -c since the -c counts individual characters but -l counts the lines of the outputs which is what you want!! Since you want to find the substrings
 which you then print out and then command | wc -l counts how many times you found it
 
 
-3. Make a file with only the sequence ids. The id is the string up to the first space. Remove the>sign. 
+**3. Make a file with only the sequence ids. The id is the string up to the first space. Remove the>sign.** 
 The ids should be output on one lineonly and be separated by spaces, like:
 HISEQ1:132:D0T25ACXX:3:1101:1380:1974 HISEQ1:.....
 
@@ -209,13 +209,13 @@ echo $(cat paxillus.fna | sed '/>/d' | egrep -v -e '^A^T^C^G' > paxidfile.fna)
 
 echo $(cat paxillus.fna | grep -l ">" | tr -d "\n" | tr -d TGACCA > paxidfile.fna)
 
-The final solution :
 $ cat paxillus.fna | grep ">" | tr -d ">" | tr -d "\n" | tr -d 1:N:0:TGACCA > paxidfile.fna
 Not right since in tr -d 1:N:0:TGACCA > paxidfile.fna   the BASH reads this the way that remove ALL characters included so all the 1s, :,, Ns etc. wont work even if you 
 put tr -d "1:N:0:TGACCA" > paxidfile.fna
 You need to cut the ID line into two separate parts, you can see that the ending TCAGG etc is separated by the initial part by space. Cut the line into two by cutting this
 space with cut command, then select which one of these "cuts" i.e. fields you want; the first (1) or second (2):
 
+The final solution :
 $ cat paxillus.fna | grep ">" | tr -d ">" | cut -d " " -f 1 | tr -d "\n" > paxidfile.fna
 
  
