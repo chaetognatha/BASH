@@ -171,8 +171,8 @@ echo the GC content is $(cat paxillus.fna | tr -d AT | grep -v \> | tr -d "\n" |
 
 
 Two ways to do the solution
-a) $ echo "scale=2; $(cat paxillus.fna | tr -d AT | grep -v \> | tr -d "\n" | wc -c) / $(cat paxillus.fna | grep -v \> | tr -d "\n" | wc -c)" | bc
-b) $ echo $(cat paxillus.fna | tr -d AT | grep -v \> | tr -d "\n" | wc -c) / $(cat paxillus.fna | grep -v \> | tr -d "\n" | wc -c) | bc -l
+a) $ echo "scale=2; $(cat paxillus.fna | tr -d AT | grep -v \> | tr -d "\n" | wc -c) / $(cat paxillus.fna | grep -v \> | tr -d "\n" | wc -c) * 100" | bc
+b) $ echo $(cat paxillus.fna | tr -d AT | grep -v \> | tr -d "\n" | wc -c) / $(cat paxillus.fna | grep -v \> | tr -d "\n" | wc -c) "* 100" | bc -l
 
 a=cat paxillus.fna | tr -d AT | grep -v \> | wc -c | bc
 b=cat paxillus.fna | grep -v \> | wc -c | bc
@@ -211,8 +211,13 @@ echo $(cat paxillus.fna | grep -l ">" | tr -d "\n" | tr -d TGACCA > paxidfile.fn
 
 The final solution :
 $ cat paxillus.fna | grep ">" | tr -d ">" | tr -d "\n" | tr -d 1:N:0:TGACCA > paxidfile.fna
+Not right since in tr -d 1:N:0:TGACCA > paxidfile.fna   the BASH reads this the way that remove ALL characters included so all the 1s, :,, Ns etc. wont work even if you 
+put tr -d "1:N:0:TGACCA" > paxidfile.fna
+You need to cut the ID line into two separate parts, you can see that the ending TCAGG etc is separated by the initial part by space. Cut the line into two by cutting this
+space with cut command, then select which one of these "cuts" i.e. fields you want; the first (1) or second (2):
 
-1. select the lines with >  2. remove the > from all lines  3. remove line changes \n   4. remove the nucleotide ending 5. transfer to new file 
+$ cat paxillus.fna | grep ">" | tr -d ">" | cut -d " " -f 1 | tr -d "\n" > paxidfile.fna
+
  
 4. Count the number of unique directories specified in your PATH variable
 /home/inf-54-2020/.local/bin:/home/inf-54-2020/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin
