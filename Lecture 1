@@ -213,4 +213,12 @@ The final solution :
 $ cat paxillus.fna | grep ">" | tr -d ">" | tr -d "\n" | tr -d 1:N:0:TGACCA > paxidfile.fna
 
 1. select the lines with >  2. remove the > from all lines  3. remove line changes \n   4. remove the nucleotide ending 5. transfer to new file 
-  
+ 
+4. Count the number of unique directories specified in your PATH variable
+/home/inf-54-2020/.local/bin:/home/inf-54-2020/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin
+After : sign a new directory starts off, calculate all of these directiories
+local/bin:/home/inf-54-2020/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin
+
+echo "local/bin:/home/inf-54-2020/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin" | tr : " " | wc -w
+
+
