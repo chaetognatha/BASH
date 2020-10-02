@@ -199,4 +199,18 @@ wc -l instead of wc -c since the -c counts individual characters but -l counts t
 which you then print out and then command | wc -l counts how many times you found it
 
 
+3. Make a file with only the sequence ids. The id is the string up to the first space. Remove the>sign. 
+The ids should be output on one lineonly and be separated by spaces, like:
+HISEQ1:132:D0T25ACXX:3:1101:1380:1974 HISEQ1:.....
+
+touch paxidfile
+echo $(cat paxillus.fna | sed '/^ATCG/d' paxillus.fna > paxidfile.fna) | sed '/>/d')
+echo $(cat paxillus.fna | sed '/>/d' | egrep -v -e '^A^T^C^G' > paxidfile.fna)
+
+echo $(cat paxillus.fna | grep -l ">" | tr -d "\n" | tr -d TGACCA > paxidfile.fna)
+
+The final solution :
+$ cat paxillus.fna | grep ">" | tr -d ">" | tr -d "\n" | tr -d 1:N:0:TGACCA > paxidfile.fna
+
+1. select the lines with >  2. remove the > from all lines  3. remove line changes \n   4. remove the nucleotide ending 5. transfer to new file 
   
