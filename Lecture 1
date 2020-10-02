@@ -176,7 +176,8 @@ b) $ echo $(cat paxillus.fna | tr -d AT | grep -v \> | tr -d "\n" | wc -c) / $(c
 
 a=cat paxillus.fna | tr -d AT | grep -v \> | wc -c | bc
 b=cat paxillus.fna | grep -v \> | wc -c | bc
-The format of the file    
+
+The format of the file  (only first few lines)  
 >HISEQ1:132:D0T25ACXX:3:1101:1380:1974 1:N:0:TGACCA
 CTTTCTCAAAGCTGTACTCGCTGGCGTCATGTTGTCCTTTGGTGGCTTGCTTGCTGTTATACTCGCTGGTGGTTCACCTAGCCTTACGGCTTCCATTCCTG
 >HISEQ1:132:D0T25ACXX:3:1101:1362:1978 1:N:0:TGACCA
@@ -187,5 +188,15 @@ GTCAAGTCCTCGGTCCTGCTCGCTTGTATGCCTTGTCATGGCATCTTCCATCCTCACGTCCACTTCTTATGATGAGAGTG
 TGGAACTTGGTTTCTGTGGTTCCCGGCCTCGCTGGCAACGTCGGCACTGACTGCACGCCCATCACCGCCATCGGACTTGGCTCTGGTAGTTCCTGCACAGC
 >HISEQ1:132:D0T25ACXX:3:1101:2322:1976 1:N:0:TGACCA
 AAAAAAACAAGATACCAATGTCTATGGACAATTTCTCATATACGGATACAGTCCGTGCTGCCTTTGCCTCATGTTTACCATGCTTCGCCAGTTCTCCGTCC
+
+
+2.Calculate the number of times the oligo GAAGTC occurs in the file(this is more tricky than it first seems).
+
+
+echo $(cat paxillus.fna | grep -v \> | grep -o "GAAGTC" | wc -l)
+when you use grep -o, it selects the desired strings
+wc -l instead of wc -c since the -c counts individual characters but -l counts the lines of the outputs which is what you want!! Since you want to find the substrings
+which you then print out and then command | wc -l counts how many times you found it
+
 
   
