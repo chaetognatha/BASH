@@ -1,0 +1,120 @@
+#2
+import sys
+
+
+with open(sys.argv[1], "r") as file1, open(sys.argv[2], "w") as output:
+
+    AA_list={'A':0, 'R':0, 'N':0, 'D':0, 'B':0, 'C':0, 'Q':0, 'E':0, 'Z':0, 'G':0, 'H':0, 'I':0, 'L':0, 'K':0, 'M':0, 'F':0, 'P':0, 'S':0, 'T':0, 'W':0, 'Y':0, 'V':0, 'X':0}
+    for lines in file1:
+        if not lines.startswith('>'):
+            #print(lines)     
+            for amino in lines.upper().strip():      #strip removes line changes
+                if not amino in AA_list:
+                    amino = 'X'
+                AA_list[amino] += 1
+            
+    print(AA_list)
+    for key,value in AA_list.items():   #items creates a list oftuples for key and value, so that you can put both in the for loop
+        output.write(key + ' ')
+        output.write(str(value) + '\n')
+
+#1
+import sys
+
+
+#write a separate function for reading fasta file into a dictionary
+
+AA_dict = []
+AAtable = { 
+        'ATA':'I', 'ATC':'I', 'ATT':'I', 'ATG':'M', 
+        'ACA':'T', 'ACC':'T', 'ACG':'T', 'ACT':'T', 
+        'AAC':'N', 'AAT':'N', 'AAA':'K', 'AAG':'K', 
+        'AGC':'S', 'AGT':'S', 'AGA':'R', 'AGG':'R',                  
+        'CTA':'L', 'CTC':'L', 'CTG':'L', 'CTT':'L', 
+        'CCA':'P', 'CCC':'P', 'CCG':'P', 'CCT':'P', 
+        'CAC':'H', 'CAT':'H', 'CAA':'Q', 'CAG':'Q', 
+        'CGA':'R', 'CGC':'R', 'CGG':'R', 'CGT':'R', 
+        'GTA':'V', 'GTC':'V', 'GTG':'V', 'GTT':'V', 
+        'GCA':'A', 'GCC':'A', 'GCG':'A', 'GCT':'A', 
+        'GAC':'D', 'GAT':'D', 'GAA':'E', 'GAG':'E', 
+        'GGA':'G', 'GGC':'G', 'GGG':'G', 'GGT':'G', 
+        'TCA':'S', 'TCC':'S', 'TCG':'S', 'TCT':'S', 
+        'TTC':'F', 'TTT':'F', 'TTA':'L', 'TTG':'L', 
+        'TAC':'Y', 'TAT':'Y', 'TAA':'*', 'TAG':'*', 
+        'TGC':'C', 'TGT':'C', 'TGA':'*', 'TGG':'W', 
+    } 
+#print(table)
+RNA_dict={}
+for old_key in AAtable:
+    if 'T' in old_key:
+        new_key= old_key.replace('T','U')
+        RNA_dict[new_key] = AAtable[old_key]
+        #print(new_key)
+    else:
+        #new_key = old_key          #this removes some of the AAs!!!!!
+        RNA_dict[old_key]=AAtable[old_key]
+
+
+#From DNA to RNA
+def DNA(inputfile):
+    DNA_dict={}
+    lista = []
+    with open(inputfile) as file1:
+        idheader = None
+        for lines in file1: 
+            if lines.startswith('>'):
+                if idheader:
+                    DNA_dict[idheader]=''.join(lista) #1. adding the id to the dic, making the whole 3 lines into a one line, then deleting the lista content so we can start again
+                    del lista[:]
+
+                idheader = lines.strip().replace('>','').split()[0]  #saves the id. cut the lines based on where id starts, the the first
+            else:
+                lista.append(lines.strip())   ##saves the sequences (multiline)
+                #print(lista)
+        DNA_dict[idheader]=''.join(lista)       #you need to add this once more as the last id+seq ends with a seq instead of the next id
+        del lista[:]    
+         
+    return DNA_dict
+    
+    
+D=DNA(sys.argv[1])
+
+#convert RNA to DNA
+def RNA(D):
+    RNA_dict={}
+    for key,value in D.items():                #if you iterate through a dict via for loop, if you apply two values with which you iterate, they are always read as key and value(even if you put a,b)
+        #print(key,value)
+        RNA_dict[key]=value.replace('T','U')
+    #print(RNA_dict)
+    return RNA_dict
+        
+            
+RNA_table = RNA(D)
+
+Protein_table ={}
+codon_list=[]
+AA_list=[]
+#read RNA as codons and match to the AA from the list
+for singleID in RNA_table.keys():
+    rnaseq=RNA_table[singleID]
+    #print(rnaseq)
+    for i in range(0, len(rnaseq), 3):
+        codon = rnaseq[i:i+3]#this means that in the list, the iterator goes through the range at a time that you give
+        AA = RNA_dict.get(codon)
+        letters=len(codon)
+        if letters == 3:
+            AA_list.append(AA)
+       # codon_list=''.join(codon_list)
+    #print(AA_list)
+    AA=''.join(AA_list)
+    #print(AA)
+    Protein_table[singleID]=AA
+print(Protein_table)
+
+with open (sys.argv[2], "w") as output:
+    for key,value in Protein_table.items():
+        Header = "> rf 1 " + key
+        print(Header)
+        
+        output.write(Header + '\n')
+        output.write(value + '\n')
