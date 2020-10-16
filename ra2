@@ -118,3 +118,32 @@ with open (sys.argv[2], "w") as output:
         
         output.write(Header + '\n')
         output.write(value + '\n')
+        
+        
+#3
+'''
+creating dictionaries for each match so that the id and the match seq without the barcode are included
+'''
+with open("barcode.fastq", "r") as file1, open("sample1.fastq", "w") as output1, open("sample1.fastq", "w") as output2, open("sample3.fastq", "w") as output3:
+    Barcodes1={}
+    Barcodes2={}
+    Barcodes3={}
+    NoBarc={}
+    for lines in file1:
+        if lines.startswith('@'):
+            idkey= lines.rstrip('\n').replace("@", "").split(':')[0]  
+
+        if lines.startswith('TATCCTCT'):
+            seq1=lines.replace('TATCCTCT','')
+            Barcodes1[idkey]=seq1
+   #print(Barcodes1)
+        if lines.startswith('GTAAGGAG'):
+            seq2=lines.replace('GTAAGGAG','')
+            Barcodes2.append(seq2)
+        if lines.startswith('TCTCTCCG'):
+            seq3=lines.replace('TCTCTCCG','')
+            Barcodes3.append(seq3)
+        else:
+            NoBarc.append(lines)
+
+                
